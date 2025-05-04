@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Corpo Atraente</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f8c4b4;
+      color: #000;
+    }
+    header {
+      background-color: #000;
+      color: #fff;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    nav a {
+      margin: 0 15px;
+      color: #fff;
+      text-decoration: none;
+    }
+    .banner {
+      background-color: #e94b4b;
+      color: #fff;
+      text-align: center;
+      padding: 50px 20px;
+    }
+    .products {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 20px;
+    }
+    .product {
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      margin: 10px;
+      padding: 15px;
+      width: 200px;
+      text-align: center;
+    }
+    .product img {
+      width: 100%;
+      height: auto;
+      border-radius: 6px;
+    }
+    .cart {
+      position: fixed;
+      right: 0;
+      top: 0;
+      width: 250px;
+      height: 100%;
+      background-color: #000;
+      color: #fff;
+      padding: 20px;
+      overflow-y: auto;
+    }
+    .cart-item {
+      border-bottom: 1px solid #fff;
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+    }
+    .footer {
+      background-color: #000;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+    }
+    button {
+      background-color: #e94b4b;
+      color: #fff;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Corpo Atraente</h1>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">Shop</a>
+      <a href="#">Contato</a>
+    </nav>
+  </header>
+
+  <div class="banner">
+    <h2>Sexy & Elegante</h2>
+    <p>Descubra a nova coleção de lingerie</p>
+    <button onclick="scrollToProducts()">Comprar Agora</button>
+  </div>
+
+  <div class="products" id="product-list">
+    <!-- Produtos serão adicionados via JS -->
+  </div>
+
+  <div class="cart" id="cart">
+    <h3>Seu Carrinho</h3>
+    <div id="cart-items"></div>
+    <p>Total: R$ <span id="cart-total">0.00</span></p>
+  </div>
+
+  <div class="footer">
+    <p>Formas de pagamento:</p>
+    <p>Pix | Cartão de Crédito | Débito | Boleto</p>
+  </div>
+
+  <script>
+    const products = [
+      { id: 1, name: "Blaze Bra", price: 120.00, image: "https://via.placeholder.com/200x250?text=Blaze+Bra" },
+      { id: 2, name: "Bodysuit", price: 40.00, image: "https://via.placeholder.com/200x250?text=Bodysuit" },
+      { id: 3, name: "Duda Suit", price: 33.00, image: "https://via.placeholder.com/200x250?text=Duda+Suit" },
+      { id: 4, name: "Red Lace", price: 120.00, image: "https://via.placeholder.com/200x250?text=Red+Lace" }
+    ];
+
+    const cart = [];
+
+    function addToCart(productId) {
+      const product = products.find(p => p.id === productId);
+      cart.push(product);
+      renderCart();
+    }
+
+    function renderProducts() {
+      const container = document.getElementById("product-list");
+      products.forEach(product => {
+        const div = document.createElement("div");
+        div.className = "product";
+        div.innerHTML = `
+          <img src="${product.image}" alt="${product.name}" />
+          <h4>${product.name}</h4>
+          <p>R$ ${product.price.toFixed(2)}</p>
+          <button onclick="addToCart(${product.id})">Adicionar ao Carrinho</button>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function renderCart() {
+      const itemsDiv = document.getElementById("cart-items");
+      const totalSpan = document.getElementById("cart-total");
+      itemsDiv.innerHTML = "";
+      let total = 0;
+      cart.forEach(item => {
+        const itemDiv = document.createElement("div");
+        itemDiv.className = "cart-item";
+        itemDiv.textContent = `${item.name} - R$ ${item.price.toFixed(2)}`;
+        itemsDiv.appendChild(itemDiv);
+        total += item.price;
+      });
+      totalSpan.textContent = total.toFixed(2);
+    }
+
+    function scrollToProducts() {
+      document.getElementById("product-list").scrollIntoView({ behavior: "smooth" });
+    }
+
+    // Inicializar
+    renderProducts();
+  </script>
+</body>
+</html>
